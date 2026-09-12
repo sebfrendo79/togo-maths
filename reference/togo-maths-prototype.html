@@ -1,0 +1,1046 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Togo Maths — Concours CE2</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --sand:#FBF1E0;
+    --sand-deep:#F3E3C7;
+    --clay:#D21034;
+    --clay-dark:#A50D29;
+    --green:#076A3A;
+    --green-dark:#054F2C;
+    --gold:#FFCE00;
+    --gold-dark:#D9AE00;
+    --ink:#1E2A38;
+    --red:#7A1F2B;
+    --white:#FFFDF9;
+    --radius:18px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:#E9DCC3;
+    font-family:'Nunito',sans-serif;
+    color:var(--ink);
+    display:flex;
+    justify-content:center;
+    min-height:100vh;
+    -webkit-font-smoothing:antialiased;
+  }
+  .phone{
+    width:100%;
+    max-width:430px;
+    min-height:100vh;
+    background:var(--sand);
+    display:flex;
+    flex-direction:column;
+    position:relative;
+    box-shadow:0 0 40px rgba(0,0,0,.15);
+  }
+  .watermark{
+    position:absolute;
+    inset:0;
+    z-index:500;
+    overflow:hidden;
+    pointer-events:none;
+    display:flex;
+    flex-direction:column;
+    justify-content:space-around;
+  }
+  .watermark span{
+    display:block;
+    white-space:nowrap;
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    font-size:1.05rem;
+    letter-spacing:.04em;
+    color:var(--ink);
+    opacity:.065;
+    transform:rotate(-20deg) translateX(-8%);
+  }
+  .kente{
+    height:9px;
+    width:100%;
+    background:repeating-linear-gradient(115deg,
+      var(--clay) 0 14px,
+      var(--gold) 14px 24px,
+      var(--green) 24px 34px,
+      var(--ink) 34px 38px);
+    flex-shrink:0;
+  }
+  header.top{
+    padding:16px 18px 12px;
+    background:var(--white);
+    border-bottom:2px solid var(--sand-deep);
+  }
+  .brand{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  }
+  .brand-name{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    font-size:1.3rem;
+    color:var(--clay-dark);
+    display:flex;
+    align-items:center;
+    gap:8px;
+  }
+  .brand-name .leaf{font-size:1.4rem;}
+  .grade-pill{
+    background:var(--green);
+    color:var(--white);
+    font-weight:700;
+    font-size:.75rem;
+    padding:5px 12px;
+    border-radius:999px;
+  }
+  .role-switch{
+    margin-top:14px;
+    display:flex;
+    background:var(--sand-deep);
+    border-radius:999px;
+    padding:4px;
+    gap:4px;
+  }
+  .role-switch button{
+    flex:1;
+    border:none;
+    background:transparent;
+    padding:9px 0;
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:.9rem;
+    color:var(--ink);
+    border-radius:999px;
+    cursor:pointer;
+    transition:background .2s,color .2s;
+  }
+  .role-switch button.active{
+    background:var(--clay);
+    color:var(--white);
+  }
+  main{
+    flex:1;
+    overflow-y:auto;
+    padding:18px 16px 90px;
+  }
+  .view{display:none;}
+  .view.active{display:block;animation:fade .25s ease;}
+  @keyframes fade{from{opacity:0;transform:translateY(6px);}to{opacity:1;transform:translateY(0);}}
+
+  .card{
+    background:var(--white);
+    border-radius:var(--radius);
+    padding:18px;
+    margin-bottom:16px;
+    border:1px solid var(--sand-deep);
+  }
+  .card h2{
+    font-family:'Baloo 2',sans-serif;
+    font-size:1.05rem;
+    margin:0 0 12px;
+    color:var(--ink);
+  }
+  .eyebrow{
+    font-size:.78rem;
+    color:var(--clay-dark);
+    font-weight:700;
+    margin-bottom:4px;
+  }
+
+  /* Countdown card */
+  .countdown-card{
+    background:linear-gradient(160deg,var(--ink) 0%,#2c3b4e 100%);
+    color:var(--white);
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+  }
+  .countdown-card::after{
+    content:"";
+    position:absolute;
+    right:-30px;top:-30px;
+    width:120px;height:120px;
+    background:radial-gradient(circle,var(--gold) 0%,transparent 70%);
+    opacity:.35;
+  }
+  .countdown-card .eyebrow{color:var(--gold);}
+  .countdown-title{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:1.15rem;
+    margin:2px 0 14px;
+  }
+  .countdown-grid{
+    display:flex;
+    gap:8px;
+    justify-content:center;
+  }
+  .countdown-grid .unit{
+    background:rgba(255,255,255,.1);
+    border-radius:12px;
+    padding:10px 6px;
+    min-width:58px;
+  }
+  .countdown-grid.days-only .unit{
+    min-width:150px;
+    padding:16px 10px;
+  }
+  .countdown-grid .num{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    font-size:1.5rem;
+    line-height:1;
+  }
+  .countdown-grid.days-only .num{
+    font-size:2.6rem;
+  }
+  .countdown-grid .lbl{
+    font-size:.68rem;
+    opacity:.75;
+    margin-top:3px;
+  }
+  .countdown-grid.days-only .lbl{
+    font-size:.82rem;
+    margin-top:6px;
+  }
+
+  /* Bandeau mascotte (accueil élève) */
+  .mascot-banner{
+    display:flex;
+    align-items:center;
+    gap:14px;
+    background:linear-gradient(135deg,#FFF6DE,#FDEBD3);
+    border:3px dashed var(--gold-dark);
+    border-radius:22px;
+    padding:18px 18px;
+    margin-bottom:18px;
+    position:relative;
+    overflow:hidden;
+  }
+  .mascot-banner::after{
+    content:"✨";
+    position:absolute;
+    top:10px;right:14px;
+    font-size:1.3rem;
+    opacity:.7;
+  }
+  .mascot-banner .emoji{
+    font-size:3.4rem;
+    flex-shrink:0;
+    animation:bounce 2.4s ease-in-out infinite;
+  }
+  @keyframes bounce{0%,100%{transform:translateY(0) rotate(-3deg);}50%{transform:translateY(-7px) rotate(3deg);}}
+  @media (prefers-reduced-motion:reduce){
+    .mascot-banner .emoji{animation:none;}
+  }
+  .mascot-banner .txt{font-family:'Baloo 2',sans-serif;font-weight:800;font-size:1.15rem;color:var(--clay-dark);}
+  .mascot-banner .sub{font-size:.86rem;color:#7a6a52;font-weight:700;margin-top:3px;}
+
+  /* Leçon du jour (placée en fin de parcours élève, plus grande) */
+  .lesson-card{
+    background:linear-gradient(150deg,#FFFDF9 0%,#FDF3E0 100%);
+    border:2px solid var(--gold);
+  }
+  .lesson-head{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    margin-bottom:14px;
+  }
+  .icon-badge{
+    width:42px;height:42px;
+    border-radius:13px;
+    background:var(--green);
+    color:var(--white);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.35rem;
+    flex-shrink:0;
+  }
+  .lesson-card .icon-badge{
+    width:52px;height:52px;
+    font-size:1.7rem;
+    border-radius:16px;
+  }
+  .lesson-card h2{font-size:1.15rem;}
+  .lesson-text{
+    font-size:1.05rem;
+    line-height:1.75;
+    color:var(--ink);
+  }
+
+  /* Info du jour - mathématiciens africains (prof) */
+  .fact-card{
+    background:linear-gradient(150deg,var(--ink) 0%,#2c3b4e 100%);
+    color:var(--white);
+  }
+  .fact-card .icon-badge{background:var(--gold);color:var(--ink);}
+  .fact-name{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    font-size:1rem;
+    margin-bottom:2px;
+  }
+  .fact-era{
+    font-size:.72rem;
+    color:var(--gold);
+    font-weight:700;
+    margin-bottom:8px;
+  }
+  .fact-text{
+    font-size:.86rem;
+    line-height:1.6;
+    opacity:.94;
+  }
+
+  /* Saison progress */
+  .season-row{
+    display:flex;
+    align-items:center;
+    gap:12px;
+  }
+  .season-track{
+    flex:1;
+    height:10px;
+    background:var(--sand-deep);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .season-fill{
+    height:100%;
+    background:linear-gradient(90deg,var(--green),var(--gold));
+    border-radius:999px;
+  }
+  .season-day{
+    font-weight:800;
+    font-size:.85rem;
+    color:var(--green-dark);
+    white-space:nowrap;
+  }
+
+  /* Exercice du jour */
+  .exo-card .top-row{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+  }
+  .streak{
+    display:flex;
+    align-items:center;
+    gap:5px;
+    background:#FDEBD3;
+    color:var(--gold-dark);
+    font-weight:800;
+    font-size:.82rem;
+    padding:5px 10px;
+    border-radius:999px;
+  }
+  .question{
+    font-size:1.6rem;
+    font-weight:800;
+    font-family:'Baloo 2',sans-serif;
+    text-align:center;
+    margin:18px 0;
+    color:var(--ink);
+  }
+  .choices{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:12px;
+  }
+  .choice-btn{
+    padding:16px 8px;
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:1.25rem;
+    border-radius:16px;
+    border:2px solid var(--sand-deep);
+    background:var(--white);
+    cursor:pointer;
+    transition:transform .1s, border-color .15s, background .15s;
+  }
+  .choice-btn:active{transform:scale(.96);}
+  .choice-btn.pastel-1{background:#FCEEE4;border-color:#F0B889;}
+  .choice-btn.pastel-2{background:#E6F4E9;border-color:#8FC79A;}
+  .choice-btn.pastel-3{background:#FFF7D9;border-color:#F2CB6B;}
+  .choice-btn.pastel-4{background:#EDEFF5;border-color:#B9C2D0;}
+  .choice-btn.correct{background:#E4F3E6;border-color:var(--green);color:var(--green-dark);}
+  .choice-btn.wrong{background:#FBE7E9;border-color:var(--red);color:var(--red);}
+  .feedback{
+    text-align:center;
+    font-weight:700;
+    margin-top:12px;
+    min-height:20px;
+    font-size:.9rem;
+  }
+  .progress-dots{
+    display:flex;
+    justify-content:center;
+    gap:6px;
+    margin-top:14px;
+  }
+  .dot{width:8px;height:8px;border-radius:999px;background:var(--sand-deep);}
+  .dot.done{background:var(--green);}
+  .dot.now{background:var(--gold);}
+
+  /* leaderboard */
+  .lb-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:10px 6px;
+    border-bottom:1px solid var(--sand-deep);
+  }
+  .lb-item:last-child{border-bottom:none;}
+  .lb-rank{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    width:26px;
+    text-align:center;
+    color:var(--clay-dark);
+    font-size:.95rem;
+  }
+  .lb-rank.top1{color:var(--gold-dark);font-size:1.2rem;}
+  .lb-rank.top2{color:#8a8a8a;}
+  .lb-rank.top3{color:#a5672c;}
+  .lb-avatar{
+    width:42px;height:42px;
+    border-radius:999px;
+    background:var(--sand-deep);
+    display:flex;align-items:center;justify-content:center;
+    font-size:1.4rem;
+    flex-shrink:0;
+  }
+  .lb-name{
+    flex:1;
+    font-weight:700;
+    font-size:.92rem;
+  }
+  .lb-sub{
+    font-size:.72rem;
+    color:#8a8a8a;
+    font-weight:600;
+  }
+  .lb-pts{
+    font-weight:800;
+    color:var(--green-dark);
+    font-size:.9rem;
+    white-space:nowrap;
+  }
+  .lb-item.me{
+    background:#FDF6E9;
+    border-radius:12px;
+    border-bottom:1px solid transparent;
+  }
+  .tabs-sub{
+    display:flex;
+    gap:8px;
+    margin-bottom:14px;
+  }
+  .tabs-sub button{
+    flex:1;
+    padding:9px 0;
+    border-radius:12px;
+    border:2px solid var(--sand-deep);
+    background:var(--white);
+    font-weight:700;
+    font-family:'Baloo 2',sans-serif;
+    font-size:.85rem;
+    cursor:pointer;
+  }
+  .tabs-sub button.active{
+    background:var(--green);
+    color:var(--white);
+    border-color:var(--green);
+  }
+
+  /* school bars */
+  .school-item{margin-bottom:14px;}
+  .school-head{
+    display:flex;
+    justify-content:space-between;
+    font-weight:700;
+    font-size:.88rem;
+    margin-bottom:5px;
+  }
+  .school-bar-track{
+    height:14px;
+    background:var(--sand-deep);
+    border-radius:999px;
+    overflow:hidden;
+  }
+  .school-bar-fill{
+    height:100%;
+    border-radius:999px;
+    background:linear-gradient(90deg,var(--clay),var(--gold));
+  }
+
+  /* teacher dashboard */
+  .stu-row{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    padding:10px 4px;
+    border-bottom:1px solid var(--sand-deep);
+  }
+  .stu-row:last-child{border-bottom:none;}
+  .stu-name{font-weight:700;font-size:.88rem;flex:1;}
+  .stu-meta{font-size:.72rem;color:#8a8a8a;}
+  .mini-track{
+    width:70px;height:8px;background:var(--sand-deep);border-radius:999px;overflow:hidden;
+  }
+  .mini-fill{height:100%;background:var(--green);border-radius:999px;}
+  .alert-dot{width:9px;height:9px;border-radius:999px;background:var(--red);flex-shrink:0;}
+  .ok-dot{width:9px;height:9px;border-radius:999px;background:var(--green);flex-shrink:0;}
+
+  .stat-row{
+    display:flex;
+    gap:10px;
+    margin-bottom:16px;
+  }
+  .stat-box{
+    flex:1;
+    background:var(--white);
+    border:1px solid var(--sand-deep);
+    border-radius:14px;
+    padding:12px 10px;
+    text-align:center;
+  }
+  .stat-box .big{
+    font-family:'Baloo 2',sans-serif;
+    font-weight:800;
+    font-size:1.3rem;
+    color:var(--clay-dark);
+  }
+  .stat-box .lab{font-size:.7rem;color:#8a8a8a;font-weight:700;}
+
+  .pedago-badge{
+    display:inline-block;
+    background:var(--ink);
+    color:var(--gold);
+    font-size:.7rem;
+    font-weight:800;
+    padding:4px 10px;
+    border-radius:999px;
+    margin-bottom:10px;
+  }
+  .explain{
+    background:var(--sand-deep);
+    border-radius:12px;
+    padding:12px;
+    font-size:.85rem;
+    margin-top:12px;
+    display:none;
+    line-height:1.5;
+  }
+
+  /* Explication du calcul du classement enseignants */
+  .score-bar-track{
+    display:flex;
+    height:16px;
+    border-radius:999px;
+    overflow:hidden;
+    background:var(--sand-deep);
+  }
+  .score-seg-eleves{background:var(--green);}
+  .score-seg-quiz{background:var(--gold);}
+  .score-legend{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+    margin-top:12px;
+    font-size:.88rem;
+    font-weight:700;
+  }
+  .dot-legend{
+    display:inline-block;
+    width:11px;height:11px;
+    border-radius:999px;
+    margin-right:7px;
+  }
+
+  nav.bottom{
+    position:absolute;
+    bottom:0;left:0;right:0;
+    background:var(--white);
+    border-top:2px solid var(--sand-deep);
+    display:flex;
+    padding:8px 6px 12px;
+  }
+  nav.bottom button{
+    flex:1;
+    border:none;
+    background:transparent;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    gap:3px;
+    font-family:'Nunito',sans-serif;
+    font-weight:700;
+    font-size:.68rem;
+    color:#a08b6f;
+    cursor:pointer;
+    padding:6px 0;
+  }
+  nav.bottom button .ico{
+    width:24px;height:24px;
+    display:flex;align-items:center;justify-content:center;
+  }
+  nav.bottom button .ico svg{
+    width:23px;height:23px;
+    stroke:currentColor;
+    fill:none;
+    stroke-width:2;
+    stroke-linecap:round;
+    stroke-linejoin:round;
+    transition:stroke .15s;
+  }
+  nav.bottom button.active .ico svg{stroke-width:2.4;}
+  nav.bottom button.active{color:var(--clay-dark);}
+  .cta{
+    width:100%;
+    padding:13px;
+    border:none;
+    border-radius:14px;
+    background:var(--clay);
+    color:var(--white);
+    font-family:'Baloo 2',sans-serif;
+    font-weight:700;
+    font-size:.95rem;
+    cursor:pointer;
+    margin-top:14px;
+  }
+  .cta:active{background:var(--clay-dark);}
+  .cta.secondary{background:var(--ink);}
+</style>
+</head>
+<body>
+<div class="phone">
+  <div class="watermark" aria-hidden="true" id="watermark"></div>
+  <div class="kente"></div>
+  <header class="top">
+    <div class="brand">
+      <div class="brand-name"><span class="leaf">⭐</span>Togo Maths</div>
+      <div class="grade-pill">CE2</div>
+    </div>
+    <div class="role-switch">
+      <button id="btn-role-eleve" class="active" onclick="setRole('eleve')">Élève</button>
+      <button id="btn-role-prof" onclick="setRole('prof')">Enseignant</button>
+    </div>
+  </header>
+
+  <main>
+    <!-- ================= ELEVE : ACCUEIL ================= -->
+    <section class="view active" id="v-accueil" data-role="eleve">
+      <div class="mascot-banner">
+        <div class="emoji">🐘</div>
+        <div>
+          <div class="txt">Salut Edem !</div>
+          <div class="sub">Prêt à relever ton défi du jour ?</div>
+        </div>
+      </div>
+
+      <div class="card countdown-card">
+        <div class="eyebrow">Grand Concours National</div>
+        <div class="countdown-title">Rendez-vous à Lomé !</div>
+        <div class="countdown-grid days-only">
+          <div class="unit"><div class="num" id="cd-days">--</div><div class="lbl">jours restants</div></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <div class="eyebrow">Saison de classement</div>
+        <div class="season-row">
+          <div class="season-track"><div class="season-fill" style="width:90%"></div></div>
+          <div class="season-day">Jour 270/300</div>
+        </div>
+      </div>
+
+      <div class="card exo-card">
+        <div class="top-row">
+          <h2 style="margin:0;">🎯 Exercice du jour</h2>
+          <div class="streak">🔥 <span id="streak-count">12</span> jours</div>
+        </div>
+        <div class="progress-dots" id="exo-dots"></div>
+        <div class="question" id="exo-question">37 + 26 = ?</div>
+        <div class="choices" id="exo-choices"></div>
+        <div class="feedback" id="exo-feedback"></div>
+      </div>
+
+      <div class="card">
+        <h2>🏆 Podium du moment</h2>
+        <div id="mini-lb"></div>
+        <button class="cta secondary" onclick="setRole('eleve');showView('classement')">Voir le classement complet</button>
+      </div>
+
+      <div class="card lesson-card">
+        <div class="lesson-head">
+          <div class="icon-badge">📘</div>
+          <h2 style="margin:0;">Leçon du jour</h2>
+        </div>
+        <div class="lesson-text" id="lesson-text">Chargement…</div>
+      </div>
+    </section>
+
+    <!-- ================= ELEVE : CLASSEMENT ================= -->
+    <section class="view" id="v-classement" data-role="eleve">
+      <h2 style="font-family:'Baloo 2';">Classement élèves</h2>
+      <p style="font-size:.85rem;color:#7a6a52;margin-top:-8px;">Depuis le début de la saison — jour 270/300</p>
+      <div class="card" id="full-lb"></div>
+    </section>
+
+    <!-- ================= ELEVE : ECOLES ================= -->
+    <section class="view" id="v-ecoles" data-role="eleve">
+      <h2 style="font-family:'Baloo 2';">Classement des écoles</h2>
+      <p style="font-size:.85rem;color:#7a6a52;margin-top:-8px;">Total des points cumulés par tous les élèves</p>
+      <div class="card" id="school-lb"></div>
+    </section>
+
+    <!-- ================= PROF : DASHBOARD ================= -->
+    <section class="view" id="v-dashboard" data-role="prof">
+      <h2 style="font-family:'Baloo 2';">Ma classe — CE2 B, EPP Bè-Kpota</h2>
+
+      <div class="stat-row">
+        <div class="stat-box"><div class="big">24</div><div class="lab">élèves</div></div>
+        <div class="stat-box"><div class="big">88%</div><div class="lab">actifs 7j</div></div>
+        <div class="stat-box"><div class="big">3</div><div class="lab">à relancer</div></div>
+      </div>
+      <div class="card">
+        <h2>Suivi élève par élève</h2>
+        <div id="stu-list"></div>
+      </div>
+
+      <div class="card fact-card">
+        <div class="lesson-head">
+          <div class="icon-badge">🌍</div>
+          <div>
+            <div class="fact-name" id="fact-name">Chargement…</div>
+            <div class="fact-era" id="fact-era"></div>
+          </div>
+        </div>
+        <div class="fact-text" id="fact-text"></div>
+      </div>
+    </section>
+
+    <!-- ================= PROF : QUIZ PEDAGO ================= -->
+    <section class="view" id="v-quizpro" data-role="prof">
+      <h2 style="font-family:'Baloo 2';">Défi enseignant du jour</h2>
+      <div class="card">
+        <span class="pedago-badge">Niveau supérieur · pédagogie</span>
+        <div class="question" style="font-size:1.05rem;text-align:left;">Un élève pose systématiquement 47 − 19 en alignant les chiffres à droite mais obtient 32. Quelle est la source d'erreur la plus probable ?</div>
+        <div class="choices" style="grid-template-columns:1fr;">
+          <button class="choice-btn" style="text-align:left;" onclick="answerPedago(this,false)">Il ne connaît pas ses tables</button>
+          <button class="choice-btn" style="text-align:left;" onclick="answerPedago(this,true)">Il soustrait le petit chiffre du grand, sans gérer la retenue</button>
+          <button class="choice-btn" style="text-align:left;" onclick="answerPedago(this,false)">Il confond addition et soustraction</button>
+        </div>
+        <div class="explain" id="pedago-explain">C'est l'erreur la plus fréquente en CE2 : l'élève calcule 9−7 au lieu de 7−9 sur la colonne des unités. Un rappel visuel de la retenue (dizaines à emprunter) résout le problème dans la majorité des cas.</div>
+      </div>
+      <div class="card">
+        <h2>Défi mathématique — niveau expert</h2>
+        <div class="question" style="font-size:1.2rem;">Quel est le prochain nombre : 2, 6, 12, 20, 30, ?</div>
+        <div class="choices">
+          <button class="choice-btn" onclick="answerMathPro(this,false)">36</button>
+          <button class="choice-btn" onclick="answerMathPro(this,true)">42</button>
+          <button class="choice-btn" onclick="answerMathPro(this,false)">40</button>
+          <button class="choice-btn" onclick="answerMathPro(this,false)">44</button>
+        </div>
+        <div class="feedback" id="mathpro-feedback"></div>
+      </div>
+    </section>
+
+    <!-- ================= PROF : CONCOURS ENSEIGNANTS ================= -->
+    <section class="view" id="v-concoursprof" data-role="prof">
+      <h2 style="font-family:'Baloo 2';">Concours des enseignants</h2>
+      <div class="card countdown-card">
+        <div class="eyebrow">En parallèle du concours élèves</div>
+        <div class="countdown-title">Finale enseignants à Lomé</div>
+        <div class="countdown-grid days-only">
+          <div class="unit"><div class="num" id="cd2-days">--</div><div class="lbl">jours restants</div></div>
+        </div>
+      </div>
+      <div class="card">
+        <h2>Comment est calculé ce classement ?</h2>
+        <div class="score-bar-track">
+          <div class="score-seg-eleves" style="width:67%"></div>
+          <div class="score-seg-quiz" style="width:33%"></div>
+        </div>
+        <div class="score-legend">
+          <div><span class="dot-legend" style="background:var(--green)"></span>2/3 — Performance de vos élèves aux exercices</div>
+          <div><span class="dot-legend" style="background:var(--gold)"></span>1/3 — Votre quiz quotidien (maths &amp; pédagogie)</div>
+        </div>
+        <p style="font-size:.85rem;color:#7a6a52;margin-top:12px;line-height:1.5;">Faire progresser sa classe compte pour l'essentiel du score, et votre propre défi quotidien vient compléter votre place au classement national.</p>
+      </div>
+      <div class="card">
+        <h2>Classement national des enseignants</h2>
+        <div id="teacher-lb"></div>
+      </div>
+    </section>
+  </main>
+
+  <nav class="bottom" id="nav-eleve">
+    <button class="active" data-view="accueil" onclick="showView('accueil')">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M3 11.5 12 4l9 7.5"/><path d="M5.5 10v9.5h13V10"/><path d="M9.5 19.5v-6h5v6"/></svg></span>
+      Accueil
+    </button>
+    <button data-view="classement" onclick="showView('classement')">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M7 4h10v4.5a5 5 0 0 1-10 0V4z"/><path d="M7 5H4.5A3.5 3.5 0 0 0 7 8"/><path d="M17 5h2.5A3.5 3.5 0 0 1 17 8"/><path d="M12 13.5v3"/><path d="M9 20.5h6"/><path d="M9.8 16.5h4.4v4h-4.4z"/></svg></span>
+      Élèves
+    </button>
+    <button data-view="ecoles" onclick="showView('ecoles')">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M3 20.5h18"/><path d="M5 20.5V9.5l7-4 7 4v11"/><path d="M9.5 20.5v-6h5v6"/><path d="M12 5.5v3.5"/></svg></span>
+      Écoles
+    </button>
+  </nav>
+
+  <nav class="bottom" id="nav-prof" style="display:none;">
+    <button class="active" data-view="dashboard" onclick="showView('dashboard')">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M4.5 20V11"/><path d="M11 20V4"/><path d="M17.5 20v-7.5"/><path d="M3.5 20h17"/></svg></span>
+      Dashboard
+    </button>
+    <button data-view="quizpro" onclick="showView('quizpro')">
+      <span class="ico"><svg viewBox="0 0 24 24"><path d="M12 4 21 8.5 12 13 3 8.5 12 4z"/><path d="M6.5 10.5v4c0 1.4 2.5 2.8 5.5 2.8s5.5-1.4 5.5-2.8v-4"/><path d="M21 8.5V15"/></svg></span>
+      Défis pro
+    </button>
+    <button data-view="concoursprof" onclick="showView('concoursprof')">
+      <span class="ico"><svg viewBox="0 0 24 24"><circle cx="12" cy="15" r="5.2"/><path d="M9.2 10.7 7.3 3.5h3l1.8 5"/><path d="M14.8 10.7 16.7 3.5h-3l-1.8 5"/></svg></span>
+      Concours
+    </button>
+  </nav>
+</div>
+
+<script>
+/* ---------- Filigrane "prototype" ---------- */
+(function(){
+  const wm = document.getElementById('watermark');
+  const phrase = "PROTOTYPE · POUR ILLUSTRATION   ".repeat(4);
+  for(let i=0;i<16;i++){
+    const s = document.createElement('span');
+    s.textContent = phrase;
+    wm.appendChild(s);
+  }
+})();
+
+/* ---------- Données de démonstration ---------- */
+const dayIndex = Math.floor(Date.now()/86400000);
+const eleves = [
+  {rank:1,name:"Ayélé K.",school:"EPP Bè-Kpota, Lomé",pts:2840,avatar:"🥇"},
+  {rank:2,name:"Komi A.",school:"EPP Tokoin, Lomé",pts:2715,avatar:"🥈"},
+  {rank:3,name:"Afi M.",school:"EPP Bè-Kpota, Lomé",pts:2690,avatar:"🥉"},
+  {rank:4,name:"Yawo N.",school:"École de Kara",pts:2510,avatar:"🧒"},
+  {rank:5,name:"Akouvi T.",school:"EPP Tokoin, Lomé",pts:2470,avatar:"👧"},
+  {rank:6,name:"Toi (Edem)",school:"EPP Bè-Kpota, Lomé",pts:2390,avatar:"⭐",me:true},
+  {rank:7,name:"Abra S.",school:"École de Sokodé",pts:2350,avatar:"🧒"},
+  {rank:8,name:"Mawuli D.",school:"École de Kara",pts:2210,avatar:"👦"},
+];
+
+const ecoles = [
+  {name:"EPP Bè-Kpota (Lomé)",pts:18420},
+  {name:"EPP Tokoin (Lomé)",pts:16980},
+  {name:"École de Kara",pts:15230},
+  {name:"École de Sokodé",pts:13870},
+  {name:"École de Kpalimé",pts:11940},
+];
+
+const eleveClasse = [
+  {name:"Afi M.",prog:92,streak:14,alert:false},
+  {name:"Yawo N.",prog:78,streak:6,alert:false},
+  {name:"Akouvi T.",prog:65,streak:2,alert:false},
+  {name:"Mawuli D.",prog:20,streak:0,alert:true},
+  {name:"Abra S.",prog:88,streak:9,alert:false},
+  {name:"Kokou B.",prog:15,streak:0,alert:true},
+];
+
+const enseignants = [
+  {rank:1,name:"M. Amouzou — EPP Tokoin, Lomé",pts:1920,avatar:"🥇"},
+  {rank:2,name:"Mme Dogbé — EPP Bè-Kpota, Lomé",pts:1840,avatar:"🥈"},
+  {rank:3,name:"Vous — EPP Bè-Kpota, Lomé",pts:1790,avatar:"🥉",me:true},
+  {rank:4,name:"M. Lawson — École de Sokodé",pts:1650,avatar:"🧑‍🏫"},
+];
+
+const factsAfrique = [
+  {name:"L'os d'Ishango",era:"République Démocratique du Congo, il y a env. 20 000 ans",text:"Cet os gravé d'entailles est l'un des plus anciens outils mathématiques connus au monde. Ses séries d'encoches suggèrent un système de comptage, voire un calendrier lunaire, bien avant l'écriture."},
+  {name:"Ahmès et le papyrus de Rhind",era:"Égypte antique, vers 1650 av. J.-C.",text:"Ce scribe égyptien a recopié l'un des plus anciens manuels de mathématiques connus, traitant de fractions, de géométrie et de problèmes de partage — utilisé pour former les futurs scribes."},
+  {name:"Les savants de Tombouctou",era:"Empire Songhaï, XVe-XVIe siècle, Mali",text:"Dans les bibliothèques de Tombouctou, des manuscrits traitaient d'astronomie et de calcul. Ces textes montrent une tradition scientifique africaine florissante, transmise de génération en génération."},
+  {name:"Grace Alele-Williams",era:"Nigeria, née en 1932",text:"Première Nigériane à obtenir un doctorat en mathématiques (1963), elle est devenue la première femme vice-chancelière d'une université nigériane, ouvrant la voie à des générations de mathématiciennes africaines."},
+  {name:"L'AIMS, un institut panafricain",era:"Fondé en 2003 en Afrique du Sud",text:"L'African Institute for Mathematical Sciences forme chaque année de jeunes talents venus de tout le continent, avec l'ambition de faire émerger les futurs grands mathématiciens et mathématiciennes d'Afrique."},
+  {name:"Ahmed Djebbar",era:"Algérie, né en 1941",text:"Mathématicien et historien des sciences, il a consacré sa carrière à mettre en lumière l'héritage mathématique du monde arabo-musulman et du Maghreb, souvent méconnu dans les manuels scolaires."},
+];
+document.getElementById('fact-name').textContent = factsAfrique[dayIndex % factsAfrique.length].name;
+document.getElementById('fact-era').textContent = factsAfrique[dayIndex % factsAfrique.length].era;
+document.getElementById('fact-text').textContent = factsAfrique[dayIndex % factsAfrique.length].text;
+
+/* ---------- Rendu classement élèves (podium + complet) ---------- */
+function lbItemHTML(e){
+  const rankClass = e.rank===1?"top1":e.rank===2?"top2":e.rank===3?"top3":"";
+  return `<div class="lb-item ${e.me?'me':''}">
+    <div class="lb-rank ${rankClass}">${e.rank}</div>
+    <div class="lb-avatar">${e.avatar}</div>
+    <div>
+      <div class="lb-name">${e.name}</div>
+      <div class="lb-sub">${e.school}</div>
+    </div>
+    <div class="lb-pts">${e.pts.toLocaleString('fr-FR')} pts</div>
+  </div>`;
+}
+document.getElementById('mini-lb').innerHTML = eleves.slice(0,3).map(lbItemHTML).join('');
+document.getElementById('full-lb').innerHTML = eleves.map(lbItemHTML).join('');
+
+/* ---------- Classement écoles (barres) ---------- */
+const maxSchoolPts = Math.max(...ecoles.map(s=>s.pts));
+document.getElementById('school-lb').innerHTML = ecoles.map((s,i)=>`
+  <div class="school-item">
+    <div class="school-head"><span>${i+1}. ${s.name}</span><span>${s.pts.toLocaleString('fr-FR')} pts</span></div>
+    <div class="school-bar-track"><div class="school-bar-fill" style="width:${(s.pts/maxSchoolPts*100).toFixed(0)}%"></div></div>
+  </div>`).join('');
+
+/* ---------- Dashboard enseignant ---------- */
+document.getElementById('stu-list').innerHTML = eleveClasse.map(s=>`
+  <div class="stu-row">
+    <div class="${s.alert?'alert-dot':'ok-dot'}"></div>
+    <div>
+      <div class="stu-name">${s.name}</div>
+      <div class="stu-meta">🔥 ${s.streak} j ${s.alert?'· inactif depuis 4 jours':'· actif'}</div>
+    </div>
+    <div class="mini-track"><div class="mini-fill" style="width:${s.prog}%"></div></div>
+  </div>`).join('');
+
+/* ---------- Classement enseignants ---------- */
+document.getElementById('teacher-lb').innerHTML = enseignants.map(e=>`
+  <div class="lb-item ${e.me?'me':''}">
+    <div class="lb-rank ${e.rank===1?'top1':e.rank===2?'top2':e.rank===3?'top3':''}">${e.rank}</div>
+    <div class="lb-avatar">${e.avatar}</div>
+    <div class="lb-name">${e.name}</div>
+    <div class="lb-pts">${e.pts.toLocaleString('fr-FR')} pts</div>
+  </div>`).join('');
+
+/* ---------- Countdown (en jours uniquement) ---------- */
+const contestDate = new Date(Date.now() + 30*24*60*60*1000);
+function tick(){
+  const diff = contestDate - new Date();
+  const d = Math.max(0,Math.ceil(diff/86400000));
+  document.getElementById('cd-days').textContent = d;
+  document.getElementById('cd2-days').textContent = d;
+}
+tick();
+
+/* ---------- Leçon du jour (change chaque jour) ---------- */
+const lessons = [
+  "Les nombres jusqu'à 1000 : on compte par centaines (100, 200, 300…), puis par dizaines, puis par unités. Exemple : 347 = 3 centaines + 4 dizaines + 7 unités. Astuce : pour comparer deux nombres, regarde toujours d'abord le chiffre des centaines.",
+  "La retenue en addition : quand la somme d'une colonne dépasse 9, on écrit l'unité et on reporte 1 dizaine sur la colonne suivante. Exemple : 27 + 15, unités 7+5=12, on pose 2 et on retient 1, ce qui donne 42 au total.",
+  "La table de multiplication de 6 : 6, 12, 18, 24, 30, 36, 42, 48, 54, 60. Astuce : chaque résultat augmente de 6. Tu peux aussi retrouver 6×7 en calculant 6×6=36 puis en ajoutant 6, soit 42.",
+  "Lire l'heure : la petite aiguille indique les heures, la grande indique les minutes. Quand la grande aiguille est sur le 6, il est « et demie ». Quand elle est sur le 3, il est « et quart ».",
+  "Les fractions simples : une pizza coupée en 4 parts égales, chaque part vaut un quart, noté 1/4. Deux parts font 2/4, soit la moitié. Si tu manges 3 parts sur 4, il en reste une seule.",
+  "La monnaie en FCFA : pour payer 350 F, on peut utiliser une pièce de 200 F, une de 100 F et une de 50 F. On additionne toujours les pièces choisies, et on vérifie qu'on obtient bien le bon total.",
+  "Les formes géométriques : un carré a 4 côtés égaux et 4 angles droits ; un rectangle a 4 angles droits mais des côtés opposés égaux deux à deux. Un triangle, lui, n'a que 3 côtés.",
+];
+document.getElementById('lesson-text').textContent = lessons[dayIndex % lessons.length];
+
+/* ---------- Exercice du jour (10 questions, niveau CE2) ---------- */
+const exoSet = [
+  {q:"37 + 26 = ?",choices:["63","53","73","61"],correct:0},
+  {q:"Combien de dizaines dans 84 ?",choices:["4","8","84","14"],correct:1},
+  {q:"7 × 6 = ?",choices:["42","36","48","41"],correct:0},
+  {q:"92 − 45 = ?",choices:["57","47","37","53"],correct:2},
+  {q:"Quelle est la moitié de 18 ?",choices:["8","9","6","12"],correct:1},
+  {q:"3 × 8 = ?",choices:["21","24","28","18"],correct:1},
+  {q:"Combien de centaines dans 456 ?",choices:["4","5","6","45"],correct:0},
+  {q:"Il est 14h30, combien reste-t-il avant 15h ?",choices:["20 min","30 min","40 min","10 min"],correct:1},
+  {q:"Un carré a combien de côtés égaux ?",choices:["2","3","4","5"],correct:2},
+  {q:"48 + 27 = ?",choices:["65","75","85","71"],correct:1},
+];
+let exoIndex = 0;
+let streak = 12;
+
+function renderExo(){
+  const item = exoSet[exoIndex];
+  document.getElementById('exo-question').textContent = item.q;
+  const choicesEl = document.getElementById('exo-choices');
+  choicesEl.innerHTML = item.choices.map((c,i)=>`<button class="choice-btn pastel-${i+1}" onclick="answerExo(${i})">${c}</button>`).join('');
+  document.getElementById('exo-feedback').textContent = '';
+  const dots = document.getElementById('exo-dots');
+  dots.innerHTML = exoSet.map((_,i)=>`<div class="dot ${i<exoIndex?'done':i===exoIndex?'now':''}"></div>`).join('');
+}
+
+function answerExo(i){
+  const item = exoSet[exoIndex];
+  const buttons = document.querySelectorAll('#exo-choices .choice-btn');
+  buttons.forEach(b=>b.style.pointerEvents='none');
+  const feedback = document.getElementById('exo-feedback');
+  if(i===item.correct){
+    buttons[i].classList.add('correct');
+    feedback.textContent = "Bravo, bonne réponse ! +10 points";
+    feedback.style.color = 'var(--green-dark)';
+  } else {
+    buttons[i].classList.add('wrong');
+    buttons[item.correct].classList.add('correct');
+    feedback.textContent = "Pas tout à fait, la bonne réponse est en vert.";
+    feedback.style.color = 'var(--red)';
+  }
+  setTimeout(()=>{
+    exoIndex++;
+    if(exoIndex < exoSet.length){
+      renderExo();
+    } else {
+      streak++;
+      document.getElementById('streak-count').textContent = streak;
+      document.getElementById('exo-question').textContent = "Terminé pour aujourd'hui !";
+      document.getElementById('exo-choices').innerHTML = '';
+      document.getElementById('exo-feedback').textContent = "Reviens demain pour un nouvel exercice et continuer ta série 🔥";
+      document.getElementById('exo-feedback').style.color = 'var(--gold-dark)';
+      const dots = document.getElementById('exo-dots');
+      dots.innerHTML = exoSet.map(()=>`<div class="dot done"></div>`).join('');
+    }
+  },1100);
+}
+renderExo();
+
+/* ---------- Défi enseignant : pédagogie ---------- */
+function answerPedago(btn,correct){
+  document.querySelectorAll('#v-quizpro .card:nth-of-type(1) .choice-btn').forEach(b=>b.style.pointerEvents='none');
+  btn.classList.add(correct?'correct':'wrong');
+  document.getElementById('pedago-explain').style.display='block';
+}
+
+/* ---------- Défi enseignant : maths expert ---------- */
+function answerMathPro(btn,correct){
+  document.querySelectorAll('#v-quizpro .card:nth-of-type(2) .choice-btn').forEach(b=>b.style.pointerEvents='none');
+  const fb = document.getElementById('mathpro-feedback');
+  if(correct){
+    btn.classList.add('correct');
+    fb.textContent = "Exact : différences +4, +6, +8, +10, +12 → suite des nombres n(n+1).";
+    fb.style.color='var(--green-dark)';
+  } else {
+    btn.classList.add('wrong');
+    fb.textContent = "La bonne réponse était 42 (différences qui augmentent de 2 à chaque fois).";
+    fb.style.color='var(--red)';
+  }
+}
+
+/* ---------- Navigation ---------- */
+function setRole(role){
+  document.getElementById('btn-role-eleve').classList.toggle('active',role==='eleve');
+  document.getElementById('btn-role-prof').classList.toggle('active',role==='prof');
+  document.getElementById('nav-eleve').style.display = role==='eleve' ? 'flex' : 'none';
+  document.getElementById('nav-prof').style.display = role==='prof' ? 'flex' : 'none';
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  const firstView = role==='eleve' ? 'accueil' : 'dashboard';
+  document.getElementById('v-'+firstView).classList.add('active');
+  document.querySelectorAll(`#nav-${role} button`).forEach((b,i)=>b.classList.toggle('active', i===0));
+}
+
+function showView(name){
+  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
+  document.getElementById('v-'+name).classList.add('active');
+  const nav = document.getElementById('v-'+name).dataset.role==='eleve' ? 'nav-eleve' : 'nav-prof';
+  document.querySelectorAll(`#${nav} button`).forEach(b=>b.classList.toggle('active', b.dataset.view===name));
+}
+</script>
+</body>
+</html>

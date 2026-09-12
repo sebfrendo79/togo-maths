@@ -1,0 +1,70 @@
+@import url("https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+  }
+
+  body {
+    @apply bg-sand-outer font-body text-ink antialiased;
+    margin: 0;
+  }
+
+  button {
+    font-family: inherit;
+    color: inherit;
+  }
+}
+
+@layer components {
+  /* Bandeau kenté : la signature visuelle de l'app. */
+  .kente {
+    height: 9px;
+    background: repeating-linear-gradient(
+      115deg,
+      #d21034 0 14px,
+      #ffce00 14px 24px,
+      #076a3a 24px 34px,
+      #1e2a38 34px 38px
+    );
+  }
+
+  .card {
+    @apply mb-4 rounded-card border border-sand-deep bg-paper p-[18px];
+  }
+
+  .card-title {
+    @apply m-0 mb-3 font-display text-[1.05rem] font-bold text-ink;
+  }
+
+  .eyebrow {
+    @apply mb-1 text-[0.78rem] font-bold text-clay-dark;
+  }
+
+  .cta {
+    @apply mt-3.5 w-full rounded-[14px] bg-clay p-[13px] font-display text-[0.95rem] font-bold text-paper active:bg-clay-dark;
+  }
+
+  .cta-secondary {
+    @apply bg-ink active:bg-ink-soft;
+  }
+
+  .pill {
+    @apply rounded-pill px-3 py-[5px] text-[0.75rem] font-bold;
+  }
+
+  .track {
+    @apply overflow-hidden rounded-pill bg-sand-deep;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-bounce-soft,
+  .animate-fade-up {
+    animation: none !important;
+  }
+}
